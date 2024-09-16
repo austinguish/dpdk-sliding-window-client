@@ -1,0 +1,43 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug lab1-server with sudo",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/usr/bin/sudo",
+            "args": [
+                "${workspaceFolder}/build/lab1-client",
+                "${input:arg1}",
+                "${input:arg2}"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "make build"
+        }
+    ],
+    "inputs": [
+        {
+            "id": "arg1",
+            "description": "First argument",
+            "default": "1",
+            "type": "promptString"
+        },
+        {
+            "id": "arg2",
+            "description": "Second argument",
+            "default": "1000",
+            "type": "promptString"
+        }
+    ]
+}
