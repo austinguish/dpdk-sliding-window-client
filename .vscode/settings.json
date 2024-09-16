@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "rte_lcore.h": "c",
+        "stdint.h": "c",
+        "rte_ip.h": "c"
+    }
+}
