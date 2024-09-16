@@ -1,0 +1,87 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "lab1_client",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "create_symlink::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-create_symlink-Debug-c2b47d071bd686183bfc.json",
+					"name" : "create_symlink",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lab1_client::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lab1_client-Debug-65ad36fa48290c9775a0.json",
+					"name" : "lab1_client",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lab1_client_shared::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lab1_client_shared-Debug-cb272aa1955235bfb7f1.json",
+					"name" : "lab1_client_shared",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "lab1_client_static::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-lab1_client_static-Debug-5e43d03b0aef6d7f4e6f.json",
+					"name" : "lab1_client_static",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/users/jiangyw/Client/cmake-build-debug",
+		"source" : "/users/jiangyw/Client"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

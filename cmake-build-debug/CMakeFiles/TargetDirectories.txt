@@ -1,0 +1,6 @@
+/users/jiangyw/Client/cmake-build-debug/CMakeFiles/lab1_client.dir
+/users/jiangyw/Client/cmake-build-debug/CMakeFiles/lab1_client_shared.dir
+/users/jiangyw/Client/cmake-build-debug/CMakeFiles/lab1_client_static.dir
+/users/jiangyw/Client/cmake-build-debug/CMakeFiles/create_symlink.dir
+/users/jiangyw/Client/cmake-build-debug/CMakeFiles/edit_cache.dir
+/users/jiangyw/Client/cmake-build-debug/CMakeFiles/rebuild_cache.dir
