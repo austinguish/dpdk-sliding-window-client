@@ -302,7 +302,7 @@ static void lcore_main() {
     ptr += sizeof(*ipv4_hdr);
 
     /* add in UDP hdr*/
-    udp_hdr_ext = (struct udp_header_extra *)ptr;
+    struct udp_header_extra *udp_hdr_ext = (struct udp_header_extra *)ptr;
     uint16_t srcp = PORT_NUM + port_id;
     uint16_t dstp = PORT_NUM + port_id;
     udp_hdr_ext->udp_hdr.src_port = rte_cpu_to_be_16(srcp);
