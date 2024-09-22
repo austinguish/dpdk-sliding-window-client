@@ -1,7 +1,0 @@
-# ninja log v5
-2	976	1726523618819487707	CMakeFiles/lab1_client_shared.dir/lab1-client.c.o	2202c47e13c8442b
-978	1077	1726523618923489184	lab1_client-shared	10bd7b18e971765c
-5	721	1726523878479208182	CMakeFiles/lab1_client_shared.dir/lab1-client.c.o	2202c47e13c8442b
-722	894	1726523878651210666	lab1_client-shared	10bd7b18e971765c
-4	883	1726525097021512408	CMakeFiles/lab1_client_static.dir/lab1-client.c.o	82e40ea25ca438cd
-884	2410	1726525098541535955	lab1_client-static	2434e2520bedd433
