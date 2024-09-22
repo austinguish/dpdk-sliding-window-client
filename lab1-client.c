@@ -245,7 +245,7 @@ static void lcore_main() {
   struct rte_udp_hdr *udp_hdr;
 
   // Specify the dst mac address here:
-  struct rte_ether_addr dst = {{0x14, 0x58, 0xD0, 0x58, 0xCF, 0xD3}};
+  struct rte_ether_addr dst = {{0xec, 0xb1, 0xD7, 0x85, 0x7a, 0x63}};
 
   struct sliding_hdr *sld_h_ack;
   uint16_t nb_rx;
@@ -305,6 +305,7 @@ static void lcore_main() {
     struct udp_header_extra *udp_hdr_ext = (struct udp_header_extra *)ptr;
     uint16_t srcp = PORT_NUM + port_id;
     uint16_t dstp = PORT_NUM + port_id;
+    udp_hdr_ext->window_size=11111;
     udp_hdr_ext->udp_hdr.src_port = rte_cpu_to_be_16(srcp);
     udp_hdr_ext->udp_hdr.dst_port = rte_cpu_to_be_16(dstp);
     udp_hdr_ext->udp_hdr.dgram_len =
