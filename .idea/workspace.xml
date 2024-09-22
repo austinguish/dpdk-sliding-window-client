@@ -26,15 +26,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c73915d0-5499-4f79-bfd8-b34aaed23ef9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/editor.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/editor.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/lab1_client-shared" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/lab1_client-shared" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lab1-client.c" beforeDir="false" afterPath="$PROJECT_DIR$/lab1-client.c" afterDir="false" />
-    </list>
+    <list default="true" id="c73915d0-5499-4f79-bfd8-b34aaed23ef9" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -105,12 +97,12 @@
       <window_info anchor="bottom" id="Version Control" order="0" />
       <window_info anchor="bottom" id="Problems" order="1" />
       <window_info anchor="bottom" id="Problems View" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="3" weight="0.30949998" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="3" visible="true" weight="0.29336494" />
       <window_info anchor="bottom" id="Services" order="4" weight="0.33033174" />
       <window_info anchor="bottom" id="CMake" order="5" />
       <window_info anchor="bottom" id="Debug" order="6" weight="0.33033174" />
       <window_info anchor="bottom" id="Messages" order="7" weight="0.29336494" />
-      <window_info active="true" anchor="bottom" id="Run" order="8" visible="true" weight="0.29336494" />
+      <window_info anchor="bottom" id="Run" order="8" weight="0.29336494" />
       <window_info anchor="right" id="make" show_stripe_button="false" side_tool="true" />
       <window_info anchor="right" id="github.copilotToolWindow" show_stripe_button="false" />
       <window_info anchor="right" id="Coverage" show_stripe_button="false" side_tool="true" />
@@ -163,7 +155,7 @@
       <workItem from="1726523552046" duration="2370000" />
       <workItem from="1727036101490" duration="85000" />
       <workItem from="1727036195731" duration="2411000" />
-      <workItem from="1727038619146" duration="1113000" />
+      <workItem from="1727038619146" duration="1430000" />
     </task>
     <servers />
   </component>
