@@ -14,6 +14,8 @@
 #include <rte_udp.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <time.h>
+#include <arpa/inet.h>
 
 // #define PKT_TX_IPV4          (1ULL << 55)
 // #define PKT_TX_IP_CKSUM      (1ULL << 54)
@@ -35,11 +37,14 @@ static struct rte_ether_addr my_eth;
 static size_t message_size = 1000;
 static uint32_t seconds = 1;
 
-size_t window_len = 10;
+size_t window_len = 1;
+size_t max_send = 100;
 
 int flow_size = 10000;
 int packet_len = 1000;
 int flow_num = 1;
+
+
 
 static uint64_t raw_time(void) {
   struct timespec tstart = {0, 0};
@@ -126,12 +131,19 @@ static int parse_packet(struct sockaddr_in *src, struct sockaddr_in *dst,
   // check udp header
   struct udp_header_extra *const udp_hdr_ext = (struct udp_header_extra *)(p);
   printf("Received packet with window size %u\n", udp_hdr_ext->window_size);
+
+  max_send = udp_hdr_ext->window_size;
+  // set 
   p += sizeof(*udp_hdr_ext);
   header += sizeof(*udp_hdr_ext);
 
   // In network byte order.
   in_port_t udp_src_port = udp_hdr_ext->udp_hdr.src_port;
   in_port_t udp_dst_port = udp_hdr_ext->udp_hdr.dst_port;
+  // print out the port number
+  printf("Received packet with src port %u and dst port %u\n",
+         rte_be_to_cpu_16(udp_hdr_ext->udp_hdr.src_port),
+         rte_be_to_cpu_16(udp_hdr_ext->udp_hdr.dst_port));
 
   int ret = rte_be_to_cpu_16(udp_hdr_ext->udp_hdr.dst_port) - PORT_NUM;
   if (ret < 0 || ret >= MAX_FLOW_NUM) {
@@ -236,35 +248,8 @@ static inline int port_init(uint16_t port, struct rte_mempool *mbuf_pool) {
 /* >8 End of main functional part of port initialization. */
 
 /* >8 End Basic forwarding application lcore. */
-
-static void lcore_main() {
-  struct rte_mbuf *pkts[BURST_SIZE];
-  struct rte_mbuf *pkt;
-  // char *buf_ptr;
-  struct rte_ether_hdr *eth_hdr;
-  struct rte_ipv4_hdr *ipv4_hdr;
-  struct rte_udp_hdr *udp_hdr;
-
-  // Specify the dst mac address here:
-  struct rte_ether_addr dst = {{0xec, 0xb1, 0xD7, 0x85, 0x7a, 0x63}};
-
-  struct sliding_hdr *sld_h_ack;
-  uint16_t nb_rx;
-  uint64_t reqs = 0;
-  // uint64_t cycle_wait = intersend_time * rte_get_timer_hz() / (1e9);
-
-  // TODO: add in scaffolding for timing/printing out quick statistics
-  int outstanding[flow_num];
-  uint16_t seq[flow_num];
-  size_t port_id = 0;
-  for (size_t i = 0; i < flow_num; i++) {
-    outstanding[i] = 0;
-    seq[i] = 0;
-  }
-
-  while (seq[port_id] < NUM_PING) {
-    // send a packet
-    pkt = rte_pktmbuf_alloc(mbuf_pool);
+static void send_packet(struct rte_mbuf *pkt, struct rte_ether_hdr *eth_hdr,struct rte_ether_addr dst,struct rte_ipv4_hdr *ipv4_hdr,size_t port_id,uint16_t *seq, int *outstanding){
+  pkt = rte_pktmbuf_alloc(mbuf_pool);
     if (pkt == NULL) {
       printf("Error allocating tx mbuf\n");
       return;
@@ -306,7 +291,7 @@ static void lcore_main() {
     struct udp_header_extra *udp_hdr_ext = (struct udp_header_extra *)ptr;
     uint16_t srcp = PORT_NUM + port_id;
     uint16_t dstp = PORT_NUM + port_id;
-    udp_hdr_ext->window_size=11111;
+    udp_hdr_ext->window_size = rte_cpu_to_be_16(window_len);
     udp_hdr_ext->udp_hdr.src_port = rte_cpu_to_be_16(srcp);
     udp_hdr_ext->udp_hdr.dst_port = rte_cpu_to_be_16(dstp);
     udp_hdr_ext->udp_hdr.dgram_len =
@@ -342,10 +327,9 @@ static void lcore_main() {
     }
 
     uint64_t last_sent = rte_get_timer_cycles();
-    // printf("Sent packet at %u, %d is outstanding, intersend is %u\n",
-    // (unsigned)last_sent, outstanding, (unsigned)intersend_time);
+}
 
-    /* now poll on receiving packets */
+static void receive(uint16_t *nb_rx, struct rte_mbuf **pkts, u_int64_t *reqs, int *outstanding,size_t port_id) {
     nb_rx = 0;
     reqs += 1;
     while ((outstanding[port_id] > 0)) {
@@ -366,8 +350,43 @@ static void lcore_main() {
         rte_pktmbuf_free(pkts[i]);
       }
     }
+    printf("received an ack!\n");
+}
 
-    // port_id = (port_id+1) % flow_num;
+static void lcore_main() {
+  struct rte_mbuf *pkts[BURST_SIZE];
+  struct rte_mbuf *pkt;
+  // char *buf_ptr;
+  struct rte_ether_hdr *eth_hdr;
+  struct rte_ipv4_hdr *ipv4_hdr;
+  struct rte_udp_hdr *udp_hdr;
+
+  // Specify the dst mac address here:
+  struct rte_ether_addr dst = {{0xec, 0xb1, 0xD7, 0x85, 0x7a, 0x63}};
+
+  struct sliding_hdr *sld_h_ack;
+  uint16_t nb_rx;
+  uint64_t reqs = 0;
+  // uint64_t cycle_wait = intersend_time * rte_get_timer_hz() / (1e9);
+
+  // TODO: add in scaffolding for timing/printing out quick statistics
+  printf("flow num is %d\n", flow_num);
+  int outstanding[flow_num];
+  uint16_t seq[flow_num];
+  size_t port_id = 0;
+  for (size_t i = 0; i < flow_num; i++) {
+    outstanding[i] = 0;
+    seq[i] = 0;
+  }
+
+  while (seq[port_id] < NUM_PING) {
+    
+    send_packet(pkt, eth_hdr, dst, ipv4_hdr, port_id, seq, outstanding);
+    printf("sent a packet!\n");
+    /* now poll on receiving packets */
+    receive(&nb_rx, pkts, &reqs, outstanding, port_id);
+
+    port_id = (port_id+1) % flow_num;
   }
   printf("Sent %" PRIu64 " packets.\n", reqs);
 }
@@ -400,6 +419,7 @@ int main(int argc, char *argv[]) {
   argv += ret;
 
   nb_ports = rte_eth_dev_count_avail();
+  printf("Number of available ports: %u\n", nb_ports);
   /* Allocates mempool to hold the mbufs. 8< */
   mbuf_pool = rte_pktmbuf_pool_create(
       "MBUF_POOL", NUM_MBUFS * nb_ports, MBUF_CACHE_SIZE, 0,
