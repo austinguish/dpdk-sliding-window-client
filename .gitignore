@@ -1,2 +1,3 @@
 ./cmake-build-debug/lab1_client-static
 ./build/lab1_client-static
+build/lab1_client-static
