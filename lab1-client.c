@@ -125,6 +125,7 @@ static int parse_packet(struct sockaddr_in *src, struct sockaddr_in *dst,
 
   // check udp header
   struct udp_header_extra *const udp_hdr_ext = (struct udp_header_extra *)(p);
+  printf("Received packet with window size %u\n", udp_hdr_ext->window_size);
   p += sizeof(*udp_hdr_ext);
   header += sizeof(*udp_hdr_ext);
 
@@ -319,8 +320,11 @@ static void lcore_main() {
     header_size += sizeof(*udp_hdr_ext);
 
     /* set the payload */
-    memset(ptr, 'a', packet_len);
-
+    memset(ptr, 0, packet_len);
+    // add timestamp in the payload
+    uint64_t timestamp = time_now(0);
+    memcpy(ptr, "&timestamp", 10);
+    printf("Sent packet with timestamp %" PRIu64 "\n", timestamp);
     pkt->l2_len = RTE_ETHER_HDR_LEN;
     pkt->l3_len = sizeof(struct rte_ipv4_hdr);
     // pkt->ol_flags = PKT_TX_IP_CKSUM | PKT_TX_IPV4;
@@ -423,3 +427,4 @@ int main(int argc, char *argv[]) {
 
   return 0;
 }
+
